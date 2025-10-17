@@ -21,12 +21,11 @@ public class Utils {
     
 
     /**
-     * 读取文件全部内容
-     * read full content of given file
+     * Read the entire content of the given file into a single string.
      *
-     *
-     * @param file file to read
-     * @return file content as string
+     * @param file the file to read
+     * @return the file content as a single string; each original line is separated by the system line separator and the result may end with a trailing line separator
+     * @throws UncheckedIOException if an I/O error occurs while reading the file
      */
     public static String readFile(File file) {
         BufferedReader reader = null;
@@ -45,6 +44,14 @@ public class Utils {
         }
     }
 
+    /**
+     * Writes the provided list of strings to the given file, writing each entry as a separate line
+     * and appending the platform line separator after each string.
+     *
+     * @param file  the target file to write to
+     * @param lines the lines to write to the file; each list element becomes one line in the file
+     * @throws UncheckedIOException if an I/O error occurs while writing to the file
+     */
     public static void writeFile(File file, List<String> lines) {
         BufferedWriter writer = null;
         try {
@@ -61,6 +68,12 @@ public class Utils {
         }
     }
 
+    /**
+     * Concatenates the given list of strings into a single comma-separated string.
+     *
+     * @param items the list of strings to concatenate; may be empty
+     * @return a string containing each input item followed by a comma; empty string if the list is empty
+     */
     public static String concatenateItems(List<String> items) {
         String result = "";
         for (Object item: items) {
@@ -69,6 +82,12 @@ public class Utils {
         return result;
     }
 
+    /**
+     * Finds the distinct string values that appear more than once in the given list.
+     *
+     * @param items the list of strings to inspect for repeated values
+     * @return a list containing each value that occurs multiple times in {@code items}; each duplicate appears once, in the order its repeat is first encountered
+     */
     public static List<String> findDuplicates(List<String> items) {
         List<String> duplicates = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
@@ -81,6 +100,14 @@ public class Utils {
         return duplicates;
     }
 
+    /**
+     * Executes the given Runnable tasks concurrently using a fixed-size thread pool.
+     *
+     * Submits each task to a pool with size equal to Math.min(actions.size(), 10). The method does not shut down
+     * the created ExecutorService; callers are responsible for managing executor lifecycle if required.
+     *
+     * @param actions list of Runnable tasks to submit; must not be null (may be empty)
+     */
     public static void asyncExecute(List<Runnable> actions) {
         int threadCount = Math.min(actions.size(), 10);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
