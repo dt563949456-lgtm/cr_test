@@ -60,13 +60,16 @@ public class Utils {
             IOUtils.closeQuietly(writer);
         }
     }
-
     public static String concatenateItems(List<String> items) {
-        String result = "";
-        for (Object item: items) {
-            result += item + ",";
+        // 避免使用String直接拼接，效率低且产生大量中间对象
+        StringBuilder sb = new StringBuilder();
+        for (String item : items) { // 直接使用String类型遍历，避免不必要的类型转换
+            if (sb.length() > 0) { // 只在有前置元素时添加逗号，避免末尾多余逗号
+                sb.append(",");
+            }
+            sb.append(item);
         }
-        return result;
+        return sb.toString();
     }
 
     public static List<String> findDuplicates(List<String> items) {
