@@ -71,7 +71,7 @@ public class Utils {
         }
         return sb.toString();
     }
-    //todo 可能性能不好，修改
+    //todo 可能性能不好，修改时间复杂度
     public static List<String> findDuplicates(List<String> items) {
         List<String> duplicates = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
